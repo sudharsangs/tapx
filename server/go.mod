@@ -1,4 +1,4 @@
-module github.com/sudharsangs/amazon-extension
+module github.com/sudharsangs/tapx
 
 go 1.16
 
