@@ -9,11 +9,12 @@ import (
 )
 
 type result struct {
-	ProductName        string `json:"product_name"`
-	ProductPrice       string `json:"product_price"`
-	StrikeThroughPrice string `json:"strike_through_price"`
-	ProductUrl         string `json:"product_url"`
-	ProductImageUrl    string `json:"product_image_url"`
+	ProductName        string `json:"product_name,omitempty"`
+	ProductPrice       string `json:"product_price,omitempty"`
+	StrikeThroughPrice string `json:"strike_through_price,omitempty"`
+	ProductUrl         string `json:"product_url,omitempty"`
+	ProductImageUrl    string `json:"product_image_url,omitempty"`
+	ProductRating      string `json:"product_rating,omitempty"`
 }
 
 func GetScrapingResults(ctx *fiber.Ctx) error {
@@ -28,6 +29,7 @@ func GetScrapingResults(ctx *fiber.Ctx) error {
 			tempProduct := result{}
 			productName := strings.TrimSpace(e.ChildText("span.a-size-medium.a-color-base.a-text-normal"))
 			productPrice := e.ChildText("span.a-price > span.a-offscreen")
+			productRating := e.ChildText("i.a-icon > span.a-icon-alt")
 			splitProductPrice := strings.Split(productPrice, "₹")
 			if len(splitProductPrice) > 1 {
 				productPrice = splitProductPrice[1]
@@ -44,7 +46,11 @@ func GetScrapingResults(ctx *fiber.Ctx) error {
 			tempProduct.StrikeThroughPrice = strikeThroughPrice
 			tempProduct.ProductUrl = productUrl
 			tempProduct.ProductImageUrl = productImage
-			resp = append(resp, tempProduct)
+			tempProduct.ProductRating = productRating
+			if productImage != "" && productPrice != "" {
+				resp = append(resp, tempProduct)
+			}
+
 		})
 	})
 	c.Visit(amazonUrl)

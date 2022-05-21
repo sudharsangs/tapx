@@ -2,14 +2,21 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/sudharsangs/tapx/routes"
 )
 
 func main() {
+
 	app := fiber.New()
 	api := app.Group("api")
 	apiv1 := api.Group("/v1")
 	routes.SearchApi(apiv1)
+	app.Use(cors.New())
+	app.Use(logger.New(logger.Config{
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	}))
 
 	var err error
 
@@ -24,5 +31,5 @@ func main() {
 	})
 
 	// Start listening on the specified address
-	err = app.Listen(":5600")
+	err = app.Listen("localhost:5600")
 }

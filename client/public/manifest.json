@@ -16,5 +16,16 @@
     "activeTab",
     "tabs",
     "scripting"
-  ]
+  ],
+  "host_permissions": ["http://localhost:5600/*"],
+   "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "linux": "Ctrl+Shift+K",
+        "windows": "Alt+Shift+P",
+        "mac": "Alt+Shift+P"
+      }
+    }
+  }
 }
