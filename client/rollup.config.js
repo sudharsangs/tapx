@@ -30,14 +30,16 @@ function serve() {
 	};
 }
 
-export default {
+export default [{
 	input: 'src/main.ts',
+	
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
 		file: 'public/build/bundle.js'
 	},
+	
 	plugins: [
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
@@ -80,4 +82,16 @@ export default {
 	watch: {
 		clearScreen: false
 	}
-};
+},
+  {
+    input: "src/injection.js",
+    output: {
+      sourcemap: true,
+      format: "iife",
+      file: "public/build/injection.js",
+    },
+    plugins: [resolve(), commonjs()],
+    watch: {
+      clearScreen: false,
+    },
+  },];

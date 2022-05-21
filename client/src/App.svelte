@@ -1,30 +1,33 @@
-<script lang="ts">
-	export let name: string;
+<script>
+  let image =
+    "https://images.unsplash.com/photo-1586074299757-dc655f18518c?fit=crop&w=1268&q=80";
+
+  function change() {
+    console.log(image);
+    chrome.storage.local.set({ background: image });
+  }
+  function windowToString() {
+    return window.getSelection().toString();
+  }
+
+  chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+    const tab = tabs[0];
+    chrome.scripting.executeScript(
+      {
+        func: windowToString,
+        target: {
+          allFrames: true,
+          tabId: tab.id,
+        },
+      },
+      function (selection) {
+        console.log(selection);
+        document.getElementById("output").innerHTML = selection[0]?.result;
+      }
+    );
+  });
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <div id="output" />
 </main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
