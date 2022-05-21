@@ -1,6 +1,6 @@
 # tapx
 
-A simple browser extension to search products from amazon.in from any webpage. Top amazon.in results for selected text in the webpage.
+A simple browser extension to search products from amazon.in from any webpage. Top amazon.in results for selected text in the webpage are shown in the popup.
 
 Built with Svelte in the frontend and Go Fiber with Colly in the backend. 
 
